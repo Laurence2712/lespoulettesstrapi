@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: strapi
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    nodeVersion: 18.0.0
+    envVars:
+      - key: NODE_VERSION
+        value: 18.0.0
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_FILENAME
+        value: .tmp/data.db
