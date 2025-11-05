@@ -16,8 +16,9 @@
     "rootDir": "."
   },
   "include": [
-    // Include root files
-    "./",
+    "./src/**/*",
+    "./config/**/*",
+    "./database/**/*",
     // Include all ts files
     "./**/*.ts",
     // Include all js files
