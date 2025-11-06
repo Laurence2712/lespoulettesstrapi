@@ -4,5 +4,7 @@ module.exports = ({ env }) => ({
   app: {
     keys: env.array('APP_KEYS'),
   },
-  url: env('STRAPI_ADMIN_BACKEND_URL', 'https://lespoulettesstrapi.onrender.com'),
+  webhooks: {
+    populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
+  },
 });

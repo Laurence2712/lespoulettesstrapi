@@ -9,5 +9,9 @@ module.exports = ({ env }) => ({
       min: 2,
       max: 10
     },
+    acquireConnectionTimeout: 60000,
+  },
+  settings: {
+    forceMigration: true,
   },
 });
