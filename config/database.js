@@ -1,16 +1,13 @@
-module.exports = ({ env }) => {
-  // debug: print selected DB env values when Strapi loads this file
-  // (this will appear in the Strapi startup logs)
-  console.log('[config/database] DATABASE_CLIENT=', env('DATABASE_CLIENT', 'sqlite'));
-  console.log('[config/database] DATABASE_FILENAME=', env('DATABASE_FILENAME', '.tmp/data.db'));
-
-  return {
+module.exports = ({ env }) => ({
+  connection: {
+    client: 'postgres',
     connection: {
-      client: env('DATABASE_CLIENT', 'sqlite'),
-      connection: {
-        filename: env('DATABASE_FILENAME', '.tmp/data.db'),
-      },
-      useNullAsDefault: true,
+      connectionString: env('DATABASE_URL'),
+      ssl: env('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
     },
-  };
-};
+    pool: {
+      min: 2,
+      max: 10
+    },
+  },
+});
