@@ -9,6 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "esModuleInterop": true,
+  "allowJs": true,
     "resolveJsonModule": true,
     "noEmitOnError": true,
     "noImplicitThis": true,
