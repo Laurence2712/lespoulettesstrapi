@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "actualites",
+  "info": {
+    "singularName": "actualite",
+    "pluralName": "actualites",
+    "displayName": "Actualités",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "content": {
+      "type": "richtext"
+    },
+    "Title": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}

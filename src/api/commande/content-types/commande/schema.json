@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "commandes",
+  "info": {
+    "singularName": "commande",
+    "pluralName": "commandes",
+    "displayName": "Commande"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Nom": {
+      "type": "string",
+      "required": true
+    },
+    "Email": {
+      "type": "email",
+      "required": true
+    },
+    "Telephone": {
+      "type": "string",
+      "required": true
+    },
+    "adresse": {
+      "type": "text"
+    },
+    "articles": {
+      "type": "json",
+      "required": true
+    },
+    "total": {
+      "type": "decimal"
+    },
+    "statut": {
+      "type": "enumeration",
+      "enum": [
+        "en_attente",
+        "confirmee",
+        "expediee"
+      ]
+    },
+    "notes": {
+      "type": "text"
+    }
+  }
+}
