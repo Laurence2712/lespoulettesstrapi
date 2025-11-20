@@ -7,9 +7,11 @@ module.exports = {
     console.log('🔔 Lifecycle hook déclenché pour commande:', result.id);
     console.log('📧 Email destinataire:', result.Email);
 
-    try {
-      // Parser les articles
-      const articles = JSON.parse(result.articles || '[]');
+   try {
+  // Parser les articles (peut être déjà un objet ou une chaîne JSON)
+  const articles = typeof result.articles === 'string'
+    ? JSON.parse(result.articles)
+    : (result.articles || []);
 
       // Générer le HTML des articles
       const articlesHTML = articles.map(item => `
