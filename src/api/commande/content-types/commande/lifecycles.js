@@ -18,8 +18,8 @@ module.exports = {
         <tr style="border-bottom: 1px solid #e5e7eb;">
           <td style="padding: 12px; text-align: left;">${item.title}</td>
           <td style="padding: 12px; text-align: center;">${item.quantity}</td>
-          <td style="padding: 12px; text-align: right;">${item.prix} FCFA</td>
-          <td style="padding: 12px; text-align: right; font-weight: bold;">${(item.prix * item.quantity).toFixed(2)} FCFA</td>
+          <td style="padding: 12px; text-align: right;">${item.prix} EUROS</td>
+          <td style="padding: 12px; text-align: right; font-weight: bold;">${(item.prix * item.quantity).toFixed(2)} EUROS</td>
         </tr>
       `).join('');
 
@@ -73,14 +73,14 @@ module.exports = {
         </tbody>
       </table>
 
-      <p class="total">Total : ${result.total.toFixed(2)} FCFA</p>
+      <p class="total">Total : ${result.total.toFixed(2)} EUROS</p>
 
       <div class="payment-box">
         <h3 style="margin-top: 0; color: #92400e;">💳 Instructions de paiement Mobile Money</h3>
         <ol style="margin: 10px 0; padding-left: 20px;">
           <li>Contactez-nous au <strong>+229 XX XX XX XX</strong> pour recevoir le QR Code</li>
           <li>Scannez le QR Code avec votre app mobile (MTN, Moov, Orange)</li>
-          <li>Effectuez le paiement de <strong>${result.total.toFixed(2)} FCFA</strong></li>
+          <li>Effectuez le paiement de <strong>${result.total.toFixed(2)} EUROS</strong></li>
           <li>Votre commande sera validée après réception du paiement</li>
         </ol>
         <p style="margin-bottom: 0;"><strong>💡 Astuce :</strong> Vous pouvez aussi nous envoyer une capture d'écran du paiement par WhatsApp.</p>
