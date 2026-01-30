@@ -26,8 +26,8 @@ module.exports = {
       // Envoyer l'email avec l'adresse VÉRIFIÉE dans SendGrid
       await strapi.plugin('email').service('email').send({
         to: result.Email,
-        from: 'laurencepirard27@gmail.com',  // ✅ CORRECTION : Email vérifié dans SendGrid
-        replyTo: 'laurencepirard27@gmail.com',
+      from: 'onboarding@resend.dev',
+replyTo: 'lespoulettes.benin@gmail.com',
         subject: '✓ Confirmation de commande - Les Poulettes',
         html: `
 <!DOCTYPE html>
