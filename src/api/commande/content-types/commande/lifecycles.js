@@ -2,9 +2,6 @@
 
 const { Resend } = require('resend');
 
-// Cache pour éviter les doublons d'emails
-const emailsSent = new Set();
-
 module.exports = {
   async afterCreate(event) {
     const { result } = event;
@@ -12,9 +9,8 @@ module.exports = {
     console.log('🔔 Lifecycle hook déclenché pour commande:', result.id);
     console.log('📧 Email destinataire:', result.Email);
 
-    // ✅ Vérifier si l'email a déjà été envoyé pour cette commande
-    const cacheKey = `${result.id}-${result.Email}`;
-    if (emailsSent.has(cacheKey)) {
+    // ✅ Vérifier si l'email a déjà été envoyé
+    if (result.email_sent) {
       console.log('⚠️ Email déjà envoyé pour cette commande, skip.');
       return;
     }
@@ -35,7 +31,7 @@ module.exports = {
         </tr>
       `).join('');
 
-      // Utiliser l'API Resend directement
+      // Utiliser l'API Resend
       const resend = new Resend(process.env.EMAIL_API_KEY);
 
       const { data, error } = await resend.emails.send({
@@ -131,8 +127,14 @@ module.exports = {
         console.error('❌ Erreur Resend:', error);
       } else {
         console.log(`✅ Email envoyé avec succès ! ID: ${data.id}`);
-        // ✅ Marquer comme envoyé
-        emailsSent.add(cacheKey);
+        
+        // ✅ Marquer l'email comme envoyé dans la base de données
+        await strapi.entityService.update('api::commande.commande', result.id, {
+          data: {
+            email_sent: true,
+          },
+        });
+        console.log(`✅ Champ email_sent mis à jour pour commande #${result.id}`);
       }
 
     } catch (error) {

@@ -42,6 +42,10 @@
     },
     "notes": {
       "type": "text"
+    },
+    "email_sent": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
