@@ -1,13 +1,19 @@
 module.exports = ({ env }) => ({
   email: {
     config: {
-      provider: 'sendgrid',
+      provider: 'nodemailer',
       providerOptions: {
-        apiKey: env('SENDGRID_API_KEY'),
+        host: 'smtp.resend.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user: 'resend',
+          pass: env('EMAIL_API_KEY'),
+        },
       },
       settings: {
-        defaultFrom: 'laurencepirard27@gmail.com',
-        defaultReplyTo: 'laurencepirard27@gmail.com',
+        defaultFrom: env('EMAIL_FROM'),
+        defaultReplyTo: env('EMAIL_FROM'),
       },
     },
   },
