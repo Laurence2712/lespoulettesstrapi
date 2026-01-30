@@ -1,5 +1,7 @@
 'use strict';
 
+const { Resend } = require('resend');
+
 module.exports = {
   async afterCreate(event) {
     const { result } = event;
@@ -7,11 +9,11 @@ module.exports = {
     console.log('🔔 Lifecycle hook déclenché pour commande:', result.id);
     console.log('📧 Email destinataire:', result.Email);
 
-   try {
-  // Parser les articles (peut être déjà un objet ou une chaîne JSON)
-  const articles = typeof result.articles === 'string'
-    ? JSON.parse(result.articles)
-    : (result.articles || []);
+    try {
+      // Parser les articles
+      const articles = typeof result.articles === 'string'
+        ? JSON.parse(result.articles)
+        : (result.articles || []);
 
       // Générer le HTML des articles
       const articlesHTML = articles.map(item => `
@@ -23,11 +25,13 @@ module.exports = {
         </tr>
       `).join('');
 
-      // Envoyer l'email avec l'adresse VÉRIFIÉE dans SendGrid
-      await strapi.plugin('email').service('email').send({
-        to: result.Email,
-      from: 'onboarding@resend.dev',
-replyTo: 'lespoulettes.benin@gmail.com',
+      // Utiliser l'API Resend directement
+      const resend = new Resend(process.env.EMAIL_API_KEY);
+
+      const { data, error } = await resend.emails.send({
+        from: 'Les Poulettes <onboarding@resend.dev>',
+        to: [result.Email],
+        replyTo: 'lespoulettes.benin@gmail.com',
         subject: '✓ Confirmation de commande - Les Poulettes',
         html: `
 <!DOCTYPE html>
@@ -105,7 +109,7 @@ replyTo: 'lespoulettes.benin@gmail.com',
 
     <div class="footer">
       <p>Cet email a été envoyé automatiquement suite à votre commande sur notre site.</p>
-      <p>Pour toute question : laurencepirard27@gmail.com</p>
+      <p>Pour toute question : lespoulettes.benin@gmail.com</p>
     </div>
   </div>
 </body>
@@ -113,14 +117,14 @@ replyTo: 'lespoulettes.benin@gmail.com',
         `,
       });
 
-      console.log(`✅ Email de confirmation envoyé à ${result.Email}`);
+      if (error) {
+        console.error('❌ Erreur Resend:', error);
+      } else {
+        console.log(`✅ Email envoyé avec succès ! ID: ${data.id}`);
+      }
 
     } catch (error) {
-      console.error('❌ Erreur lors de l\'envoi de l\'email:', error);
-      console.error('Détails de l\'erreur:', error.message);
-      if (error.response) {
-        console.error('Réponse SendGrid:', error.response.body);
-      }
+      console.error('❌ Erreur lors de l\'envoi:', error);
     }
   },
 };
