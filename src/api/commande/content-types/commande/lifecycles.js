@@ -2,12 +2,22 @@
 
 const { Resend } = require('resend');
 
+// Cache pour éviter les doublons d'emails
+const emailsSent = new Set();
+
 module.exports = {
   async afterCreate(event) {
     const { result } = event;
 
     console.log('🔔 Lifecycle hook déclenché pour commande:', result.id);
     console.log('📧 Email destinataire:', result.Email);
+
+    // ✅ Vérifier si l'email a déjà été envoyé pour cette commande
+    const cacheKey = `${result.id}-${result.Email}`;
+    if (emailsSent.has(cacheKey)) {
+      console.log('⚠️ Email déjà envoyé pour cette commande, skip.');
+      return;
+    }
 
     try {
       // Parser les articles
@@ -121,6 +131,8 @@ module.exports = {
         console.error('❌ Erreur Resend:', error);
       } else {
         console.log(`✅ Email envoyé avec succès ! ID: ${data.id}`);
+        // ✅ Marquer comme envoyé
+        emailsSent.add(cacheKey);
       }
 
     } catch (error) {
