@@ -31,9 +31,6 @@
     "Prix": {
       "type": "decimal"
     },
-    "Stock": {
-      "type": "integer"
-    },
     "Declinaison": {
       "displayName": "Declinaisons ",
       "type": "component",

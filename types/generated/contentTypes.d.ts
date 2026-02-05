@@ -498,7 +498,6 @@ export interface ApiRealisationRealisation extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     Prix: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
-    Stock: Schema.Attribute.Integer;
     Titre: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
