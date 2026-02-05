@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_produit_declinaisons_s",
+  "info": {
+    "displayName": "Declinaisons "
+  },
+  "options": {},
+  "attributes": {
+    "Image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "Stock": {
+      "type": "integer"
+    },
+    "Description": {
+      "type": "text"
+    }
+  }
+}

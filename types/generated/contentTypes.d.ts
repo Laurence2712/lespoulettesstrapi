@@ -484,6 +484,7 @@ export interface ApiRealisationRealisation extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    Declinaison: Schema.Attribute.Component<'produit.declinaisons', true>;
     Description: Schema.Attribute.Text;
     Images: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',

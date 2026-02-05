@@ -33,6 +33,12 @@
     },
     "Stock": {
       "type": "integer"
+    },
+    "Declinaison": {
+      "displayName": "Declinaisons ",
+      "type": "component",
+      "repeatable": true,
+      "component": "produit.declinaisons"
     }
   }
 }
