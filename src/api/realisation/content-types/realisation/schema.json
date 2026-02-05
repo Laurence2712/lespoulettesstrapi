@@ -4,7 +4,8 @@
   "info": {
     "singularName": "realisation",
     "pluralName": "realisations",
-    "displayName": "Realisation"
+    "displayName": "Catégories",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -17,17 +18,21 @@
       "type": "text"
     },
     "Images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
     },
     "Prix": {
       "type": "decimal"
+    },
+    "Stock": {
+      "type": "integer"
     }
   }
 }

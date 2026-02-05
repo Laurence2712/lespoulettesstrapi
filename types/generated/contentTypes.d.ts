@@ -417,6 +417,7 @@ export interface ApiCommandeCommande extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     Email: Schema.Attribute.Email & Schema.Attribute.Required;
+    email_sent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -471,7 +472,8 @@ export interface ApiHomepageHomepage extends Struct.CollectionTypeSchema {
 export interface ApiRealisationRealisation extends Struct.CollectionTypeSchema {
   collectionName: 'realisations';
   info: {
-    displayName: 'Realisation';
+    description: '';
+    displayName: 'Cat\u00E9gories';
     pluralName: 'realisations';
     singularName: 'realisation';
   };
@@ -495,6 +497,7 @@ export interface ApiRealisationRealisation extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     Prix: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
+    Stock: Schema.Attribute.Integer;
     Titre: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
