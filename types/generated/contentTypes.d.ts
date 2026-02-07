@@ -473,7 +473,7 @@ export interface ApiRealisationRealisation extends Struct.CollectionTypeSchema {
   collectionName: 'realisations';
   info: {
     description: '';
-    displayName: 'Cat\u00E9gories';
+    displayName: 'R\u00E9alisations';
     pluralName: 'realisations';
     singularName: 'realisation';
   };
