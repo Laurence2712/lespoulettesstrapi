@@ -1,7 +1,3 @@
-/**
- * commande controller
- */
-
 import { factories } from '@strapi/strapi';
 import Stripe from 'stripe';
 
@@ -28,7 +24,6 @@ export default factories.createCoreController('api::commande.commande', ({ strap
     const frontendUrl = process.env.FRONTEND_URL || 'https://lespoulettes.laurencepirard.be';
 
     try {
-      // Create line items for Stripe
       const lineItems = items.map((item: any) => ({
         price_data: {
           currency: 'eur',
@@ -36,12 +31,11 @@ export default factories.createCoreController('api::commande.commande', ({ strap
             name: item.title,
             ...(item.image_url ? { images: [item.image_url] } : {}),
           },
-          unit_amount: Math.round(Number(item.prix) * 100), // Stripe uses cents
+          unit_amount: Math.round(Number(item.prix) * 100),
         },
         quantity: item.quantity,
       }));
 
-      // Create commande in Strapi first
       const commande = await strapi.documents('api::commande.commande').create({
         data: {
           Nom: nom,
@@ -56,7 +50,6 @@ export default factories.createCoreController('api::commande.commande', ({ strap
         },
       });
 
-      // Create Stripe Checkout Session
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card', 'bancontact'],
         line_items: lineItems,
