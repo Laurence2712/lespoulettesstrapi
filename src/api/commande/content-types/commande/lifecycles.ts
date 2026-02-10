@@ -4,7 +4,7 @@ export default {
     
     try {
       if (!result.email_sent) {
-        const emailService = strapi.plugins['email'].services.email;
+        const emailService = (strapi as any).plugins['email'].services.email;
         
         let items: any[] = [];
         try {
@@ -82,7 +82,7 @@ export default {
           html: emailHtml,
         });
 
-        await strapi.entityService.update('api::commande.commande', result.id, {
+        await (strapi as any).entityService.update('api::commande.commande', result.id, {
           data: { email_sent: true },
         });
 
@@ -99,11 +99,11 @@ export default {
 
       for (const item of items) {
         if (item.categorieId && item.declinaisonId) {
-          const categorie = await strapi.entityService.findOne(
+          const categorie = await (strapi as any).entityService.findOne(
             'api::realisation.realisation',
             item.categorieId,
             { populate: ['Declinaison'] }
-          );
+          ) as any;
 
           if (categorie && categorie.Declinaison) {
             const declinaisonIndex = categorie.Declinaison.findIndex(
@@ -116,7 +116,7 @@ export default {
 
               categorie.Declinaison[declinaisonIndex].Stock = newStock;
 
-              await strapi.entityService.update(
+              await (strapi as any).entityService.update(
                 'api::realisation.realisation',
                 item.categorieId,
                 {
