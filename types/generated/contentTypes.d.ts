@@ -403,6 +403,7 @@ export interface ApiActualiteActualite extends Struct.CollectionTypeSchema {
 export interface ApiCommandeCommande extends Struct.CollectionTypeSchema {
   collectionName: 'commandes';
   info: {
+    description: '';
     displayName: 'Commande';
     pluralName: 'commandes';
     singularName: 'commande';
@@ -424,12 +425,15 @@ export interface ApiCommandeCommande extends Struct.CollectionTypeSchema {
       'api::commande.commande'
     > &
       Schema.Attribute.Private;
+    methode_paiement: Schema.Attribute.String;
     Nom: Schema.Attribute.String & Schema.Attribute.Required;
     notes: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     statut: Schema.Attribute.Enumeration<
       ['en_attente', 'confirmee', 'expediee']
     >;
+    stripe_payment_intent: Schema.Attribute.String;
+    stripe_session_id: Schema.Attribute.String;
     Telephone: Schema.Attribute.String & Schema.Attribute.Required;
     total: Schema.Attribute.Decimal;
     updatedAt: Schema.Attribute.DateTime;

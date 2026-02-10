@@ -4,7 +4,8 @@
   "info": {
     "singularName": "commande",
     "pluralName": "commandes",
-    "displayName": "Commande"
+    "displayName": "Commande",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -56,6 +57,9 @@
       "default": "virement"
     },
     "stripe_session_id": {
+      "type": "string"
+    },
+    "stripe_payment_intent": {
       "type": "string"
     }
   }
