@@ -46,6 +46,17 @@
     "email_sent": {
       "type": "boolean",
       "default": false
+    },
+    "methode_paiement": {
+      "type": "enumeration",
+      "enum": [
+        "virement",
+        "carte"
+      ],
+      "default": "virement"
+    },
+    "stripe_session_id": {
+      "type": "string"
     }
   }
 }
