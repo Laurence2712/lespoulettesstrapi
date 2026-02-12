@@ -2,6 +2,45 @@ import { factories } from '@strapi/strapi';
 import Stripe from 'stripe';
 
 export default factories.createCoreController('api::commande.commande', ({ strapi }) => ({
+  async createBankTransferOrder(ctx) {
+    const { items, email, nom, telephone, adresse, notes } = ctx.request.body as any;
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return ctx.badRequest('Le panier est vide');
+    }
+
+    if (!email || !nom || !telephone) {
+      return ctx.badRequest('Informations client manquantes');
+    }
+
+    try {
+      const total = items.reduce((sum: number, item: any) => sum + Number(item.prix) * item.quantity, 0);
+
+      const commande = await strapi.documents('api::commande.commande').create({
+        data: {
+          Nom: nom,
+          Email: email,
+          Telephone: telephone,
+          adresse: adresse || '',
+          articles: JSON.stringify(items),
+          total,
+          statut: 'en_attente',
+          methode_paiement: 'virement',
+          notes: notes || '',
+        },
+      });
+
+      ctx.body = {
+        success: true,
+        commande_id: commande.documentId,
+        message: 'Commande enregistrée avec succès',
+      };
+    } catch (err: any) {
+      strapi.log.error('Bank transfer order error:', err);
+      return ctx.internalServerError(err.message || 'Erreur lors de la création de la commande');
+    }
+  },
+
   async createCheckoutSession(ctx) {
     const { items, email, nom, telephone, adresse, notes } = ctx.request.body as any;
 
