@@ -8,5 +8,13 @@ export default {
         auth: false,
       },
     },
+    {
+      method: 'POST',
+      path: '/commandes/create-bank-transfer-order',
+      handler: 'commande.createBankTransferOrder',
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
