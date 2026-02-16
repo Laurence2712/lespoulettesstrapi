@@ -385,6 +385,7 @@ export interface ApiActualiteActualite extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
     image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -425,7 +426,8 @@ export interface ApiCommandeCommande extends Struct.CollectionTypeSchema {
       'api::commande.commande'
     > &
       Schema.Attribute.Private;
-    methode_paiement: Schema.Attribute.String;
+    methode_paiement: Schema.Attribute.Enumeration<['virement', 'carte']> &
+      Schema.Attribute.DefaultTo<'virement'>;
     Nom: Schema.Attribute.String & Schema.Attribute.Required;
     notes: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
