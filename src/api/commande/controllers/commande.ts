@@ -103,6 +103,11 @@ export default factories.createCoreController('api::commande.commande', ({ strap
         },
       });
 
+      await strapi.documents('api::commande.commande').update({
+        documentId: commande.documentId,
+        data: { stripe_session_id: session.id },
+      });
+
       ctx.body = { url: session.url };
     } catch (err: any) {
       strapi.log.error('Stripe checkout error:', err);

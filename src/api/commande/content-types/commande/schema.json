@@ -38,7 +38,8 @@
       "enum": [
         "en_attente",
         "confirmee",
-        "expediee"
+        "expediee",
+        "annulee"
       ]
     },
     "notes": {
