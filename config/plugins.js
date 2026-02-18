@@ -1,25 +1,16 @@
 module.exports = ({ env }) => ({
-email: {
-  config: {
-    provider: 'nodemailer',
-    providerOptions: {
-      host: 'smtp.resend.com',
-      port: 587,  // ✅ Port 587 au lieu de 465
-      secure: false,  // ✅ false pour TLS
-      auth: {
-        user: 'resend',
-        pass: env('EMAIL_API_KEY'),
+  email: {
+    config: {
+      provider: 'sendgrid',
+      providerOptions: {
+        apiKey: env('SENDGRID_API_KEY'),
       },
-      tls: {
-        rejectUnauthorized: false,  // ✅ Important pour certains hébergeurs
+      settings: {
+        defaultFrom: 'laurencepirard27@gmail.com',
+        defaultReplyTo: 'laurencepirard27@gmail.com',
       },
-    },
-    settings: {
-      defaultFrom: env('EMAIL_FROM'),
-      defaultReplyTo: env('EMAIL_FROM'),
     },
   },
-},
   upload: {
     config: {
       provider: 'cloudinary',
