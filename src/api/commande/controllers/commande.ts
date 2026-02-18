@@ -101,6 +101,13 @@ export default factories.createCoreController('api::commande.commande', ({ strap
           nom,
           telephone,
         },
+        payment_intent_data: {
+          metadata: {
+            commande_id: String(commande.documentId),
+            nom,
+            telephone,
+          },
+        },
       });
 
       await strapi.documents('api::commande.commande').update({
