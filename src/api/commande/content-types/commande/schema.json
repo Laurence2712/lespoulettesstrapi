@@ -37,6 +37,7 @@
       "type": "enumeration",
       "enum": [
         "en_attente",
+        "payé",
         "confirmee",
         "expediee",
         "annulee"
