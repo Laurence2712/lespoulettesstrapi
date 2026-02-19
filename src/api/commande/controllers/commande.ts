@@ -121,4 +121,84 @@ export default factories.createCoreController('api::commande.commande', ({ strap
       return ctx.internalServerError(err.message || 'Erreur lors de la création de la session de paiement');
     }
   },
+
+  async stripeWebhook(ctx) {
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    if (!stripeSecretKey) {
+      strapi.log.error('STRIPE_SECRET_KEY manquant');
+      return ctx.internalServerError('Configuration Stripe manquante');
+    }
+
+    const stripe = new Stripe(stripeSecretKey);
+
+    let event: Stripe.Event;
+
+    try {
+      // Strapi expose le body brut via Symbol('unparsedBody') quand includeUnparsed: true
+      const unparsed = (ctx.request.body as any)[Symbol.for('unparsedBody')];
+      const rawBody = unparsed || JSON.stringify(ctx.request.body);
+      const signature = ctx.request.headers['stripe-signature'] as string;
+
+      if (webhookSecret && signature) {
+        event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
+      } else {
+        // Sans secret configuré, on fait confiance au body (dev/test uniquement)
+        strapi.log.warn('STRIPE_WEBHOOK_SECRET absent — validation de signature désactivée');
+        event = ctx.request.body as Stripe.Event;
+      }
+    } catch (err: any) {
+      strapi.log.error('Webhook signature invalide:', err.message);
+      ctx.status = 400;
+      ctx.body = { error: `Webhook Error: ${err.message}` };
+      return;
+    }
+
+    if (event.type === 'checkout.session.completed') {
+      const session = event.data.object as Stripe.Checkout.Session;
+      const commandeId = session.metadata?.commande_id;
+
+      if (!commandeId) {
+        strapi.log.warn('Webhook: commande_id absent dans metadata Stripe');
+        ctx.status = 200;
+        ctx.body = { received: true };
+        return;
+      }
+
+      try {
+        // Chercher la commande par documentId
+        const commandes = await strapi.documents('api::commande.commande').findMany({
+          filters: { stripe_session_id: session.id } as any,
+        });
+
+        const commande = commandes[0];
+
+        if (!commande) {
+          strapi.log.warn(`Webhook: commande introuvable pour session ${session.id}`);
+          ctx.status = 200;
+          ctx.body = { received: true };
+          return;
+        }
+
+        if (commande.statut !== 'payé') {
+          await strapi.documents('api::commande.commande').update({
+            documentId: commande.documentId,
+            data: {
+              statut: 'payé',
+              stripe_payment_intent: typeof session.payment_intent === 'string'
+                ? session.payment_intent
+                : (session.payment_intent as any)?.id || '',
+            } as any,
+          });
+          strapi.log.info(`✅ Commande ${commande.documentId} mise à jour → payé`);
+        }
+      } catch (err: any) {
+        strapi.log.error('Webhook: erreur mise à jour commande:', err);
+      }
+    }
+
+    ctx.status = 200;
+    ctx.body = { received: true };
+  },
 }));
