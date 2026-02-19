@@ -432,7 +432,7 @@ export interface ApiCommandeCommande extends Struct.CollectionTypeSchema {
     notes: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     statut: Schema.Attribute.Enumeration<
-      ['en_attente', 'confirmee', 'expediee']
+      ['en_attente', 'payé', 'confirmee', 'expediee', 'annulee']
     >;
     stripe_payment_intent: Schema.Attribute.String;
     stripe_session_id: Schema.Attribute.String;
