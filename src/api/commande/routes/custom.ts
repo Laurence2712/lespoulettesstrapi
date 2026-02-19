@@ -16,5 +16,13 @@ export default {
         auth: false,
       },
     },
+    {
+      method: 'POST',
+      path: '/commandes/stripe-webhook',
+      handler: 'commande.stripeWebhook',
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
