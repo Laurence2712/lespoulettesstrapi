@@ -133,7 +133,7 @@ export default factories.createCoreController('api::commande.commande', ({ strap
 
     const stripe = new Stripe(stripeSecretKey);
 
-    let event: Stripe.Event;
+    let event: any;
 
     try {
       // Strapi expose le body brut via Symbol('unparsedBody') quand includeUnparsed: true
@@ -146,7 +146,7 @@ export default factories.createCoreController('api::commande.commande', ({ strap
       } else {
         // Sans secret configuré, on fait confiance au body (dev/test uniquement)
         strapi.log.warn('STRIPE_WEBHOOK_SECRET absent — validation de signature désactivée');
-        event = ctx.request.body as Stripe.Event;
+        event = ctx.request.body;
       }
     } catch (err: any) {
       strapi.log.error('Webhook signature invalide:', err.message);
@@ -156,8 +156,8 @@ export default factories.createCoreController('api::commande.commande', ({ strap
     }
 
     if (event.type === 'checkout.session.completed') {
-      const session = event.data.object as Stripe.Checkout.Session;
-      const commandeId = session.metadata?.commande_id;
+      const session: any = event.data.object;
+      const commandeId: string | undefined = session.metadata?.commande_id;
 
       if (!commandeId) {
         strapi.log.warn('Webhook: commande_id absent dans metadata Stripe');
@@ -188,7 +188,7 @@ export default factories.createCoreController('api::commande.commande', ({ strap
               statut: 'payé',
               stripe_payment_intent: typeof session.payment_intent === 'string'
                 ? session.payment_intent
-                : (session.payment_intent as any)?.id || '',
+                : session.payment_intent?.id || '',
             } as any,
           });
           strapi.log.info(`✅ Commande ${commande.documentId} mise à jour → payé`);
