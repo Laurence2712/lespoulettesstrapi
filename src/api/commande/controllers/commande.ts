@@ -104,7 +104,7 @@ export default factories.createCoreController('api::commande.commande', ({ strap
         line_items: lineItems,
         mode: 'payment',
         customer_email: email,
-        success_url: `${frontendUrl}/paiement-reussi?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${frontendUrl}/panier/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${frontendUrl}/panier`,
         metadata: {
           commande_id: String(commande.documentId),
