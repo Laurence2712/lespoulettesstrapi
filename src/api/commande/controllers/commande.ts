@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 
 export default factories.createCoreController('api::commande.commande', ({ strapi }) => ({
   async createBankTransferOrder(ctx) {
-    const { items, email, nom, telephone, adresse, notes } = ctx.request.body as any;
+    const { items, email, nom, telephone, mode_livraison, pays, code_postal, ville, rue, adresse, notes } = ctx.request.body as any;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return ctx.badRequest('Le panier est vide');
@@ -21,6 +21,11 @@ export default factories.createCoreController('api::commande.commande', ({ strap
           Nom: nom,
           Email: email,
           Telephone: telephone,
+          mode_livraison: mode_livraison || 'livraison_domicile',
+          pays: pays || '',
+          code_postal: code_postal || '',
+          ville: ville || '',
+          rue: rue || '',
           adresse: adresse || '',
           articles: JSON.stringify(items),
           total,
@@ -42,7 +47,7 @@ export default factories.createCoreController('api::commande.commande', ({ strap
   },
 
   async createCheckoutSession(ctx) {
-    const { items, email, nom, telephone, adresse, notes } = ctx.request.body as any;
+    const { items, email, nom, telephone, mode_livraison, pays, code_postal, ville, rue, adresse, notes } = ctx.request.body as any;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return ctx.badRequest('Le panier est vide');
@@ -80,6 +85,11 @@ export default factories.createCoreController('api::commande.commande', ({ strap
           Nom: nom,
           Email: email,
           Telephone: telephone,
+          mode_livraison: mode_livraison || 'livraison_domicile',
+          pays: pays || '',
+          code_postal: code_postal || '',
+          ville: ville || '',
+          rue: rue || '',
           adresse: adresse || '',
           articles: JSON.stringify(items),
           total: items.reduce((sum: number, item: any) => sum + Number(item.prix) * item.quantity, 0),
