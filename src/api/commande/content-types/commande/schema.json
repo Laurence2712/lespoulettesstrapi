@@ -23,6 +23,26 @@
       "type": "string",
       "required": true
     },
+    "mode_livraison": {
+      "type": "enumeration",
+      "enum": [
+        "livraison_domicile",
+        "retrait_gratuit"
+      ],
+      "default": "livraison_domicile"
+    },
+    "pays": {
+      "type": "string"
+    },
+    "code_postal": {
+      "type": "string"
+    },
+    "ville": {
+      "type": "string"
+    },
+    "rue": {
+      "type": "string"
+    },
     "adresse": {
       "type": "text"
     },

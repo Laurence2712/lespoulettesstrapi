@@ -25,8 +25,28 @@ const COMMANDE_CONTENT_MANAGER_CONFIG = {
       edit: { label: 'Téléphone', description: '', placeholder: '', visible: true, editable: true },
       list: { label: 'Téléphone', searchable: false, sortable: false },
     },
+    mode_livraison: {
+      edit: { label: 'Mode de livraison', description: '', placeholder: '', visible: true, editable: true },
+      list: { label: 'Livraison', searchable: true, sortable: true },
+    },
+    pays: {
+      edit: { label: 'Pays', description: '', placeholder: '', visible: true, editable: true },
+      list: { label: 'Pays', searchable: false, sortable: false },
+    },
+    code_postal: {
+      edit: { label: 'Code postal', description: '', placeholder: '', visible: true, editable: true },
+      list: { label: 'Code postal', searchable: false, sortable: false },
+    },
+    ville: {
+      edit: { label: 'Ville', description: '', placeholder: '', visible: true, editable: true },
+      list: { label: 'Ville', searchable: false, sortable: false },
+    },
+    rue: {
+      edit: { label: 'Rue et numéro', description: '', placeholder: '', visible: true, editable: true },
+      list: { label: 'Rue', searchable: false, sortable: false },
+    },
     adresse: {
-      edit: { label: 'Adresse', description: '', placeholder: '', visible: true, editable: true },
+      edit: { label: 'Adresse (legacy)', description: '', placeholder: '', visible: true, editable: true },
       list: { label: 'Adresse', searchable: false, sortable: false },
     },
     articles: {
@@ -76,6 +96,9 @@ const COMMANDE_CONTENT_MANAGER_CONFIG = {
     edit: [
       [{ name: 'Nom', size: 6 }, { name: 'Email', size: 6 }],
       [{ name: 'Telephone', size: 6 }, { name: 'methode_paiement', size: 6 }],
+      [{ name: 'mode_livraison', size: 12 }],
+      [{ name: 'rue', size: 12 }],
+      [{ name: 'ville', size: 4 }, { name: 'code_postal', size: 4 }, { name: 'pays', size: 4 }],
       [{ name: 'adresse', size: 12 }],
       [{ name: 'articles', size: 12 }],
       [{ name: 'total', size: 4 }, { name: 'statut', size: 4 }, { name: 'email_sent', size: 4 }],
@@ -141,11 +164,8 @@ async function setCommandeListViewConfig(strapi: Core.Strapi) {
   try {
     const store = strapi.store({ type: 'plugin', name: 'content-manager' });
     const key = 'configuration_content_types::api::commande.commande';
-    const existing = await store.get({ key });
-    if (!existing) {
-      await store.set({ key, value: COMMANDE_CONTENT_MANAGER_CONFIG });
-      strapi.log.info('bootstrap: Commande list view configuration set');
-    }
+    await store.set({ key, value: COMMANDE_CONTENT_MANAGER_CONFIG });
+    strapi.log.info('bootstrap: Commande list view configuration set');
   } catch (e) {
     strapi.log.warn('bootstrap: Could not set commande list view config', e);
   }
