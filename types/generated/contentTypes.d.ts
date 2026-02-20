@@ -410,7 +410,7 @@ export interface ApiCommandeCommande extends Struct.CollectionTypeSchema {
     singularName: 'commande';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     adresse: Schema.Attribute.Text;
@@ -492,6 +492,9 @@ export interface ApiRealisationRealisation extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     Declinaison: Schema.Attribute.Component<'produit.declinaisons', true>;
     Description: Schema.Attribute.Text;
+    ImagePrincipale: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
     Images: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',
       true

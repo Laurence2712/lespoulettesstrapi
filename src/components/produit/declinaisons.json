@@ -1,25 +1,31 @@
 {
   "collectionName": "components_produit_declinaisons_s",
   "info": {
-    "displayName": "Declinaisons "
+    "displayName": "Declinaisons ",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "Image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "Stock": {
       "type": "integer"
     },
     "Description": {
       "type": "text"
+    },
+    "CoupDeCoeur": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

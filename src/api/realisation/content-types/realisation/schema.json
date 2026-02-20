@@ -44,6 +44,16 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "ImagePrincipale": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }
