@@ -26,8 +26,34 @@ module.exports = ({ env }) => ({
         api_secret: env('CLOUDINARY_SECRET'),
       },
       actionOptions: {
-        upload: {},
-        uploadStream: {},
+        upload: {
+          // Auto-convert to WebP for supported browsers, fall back to original format
+          // quality: auto balances file size vs. visual quality automatically
+          transformation: [{ fetch_format: 'auto', quality: 'auto' }],
+          responsive_breakpoints: [
+            {
+              create_derived: true,
+              bytes_step: 20000,
+              min_width: 320,
+              max_width: 1920,
+              max_images: 6,
+              transformation: { fetch_format: 'auto', quality: 'auto' },
+            },
+          ],
+        },
+        uploadStream: {
+          transformation: [{ fetch_format: 'auto', quality: 'auto' }],
+          responsive_breakpoints: [
+            {
+              create_derived: true,
+              bytes_step: 20000,
+              min_width: 320,
+              max_width: 1920,
+              max_images: 6,
+              transformation: { fetch_format: 'auto', quality: 'auto' },
+            },
+          ],
+        },
         delete: {},
       },
     },

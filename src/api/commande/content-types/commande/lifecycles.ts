@@ -129,8 +129,11 @@ export default {
             </div>
             `}
 
-            <h3>📦 Adresse de livraison</h3>
-            <p>${result.adresse}</p>
+            <h3>📦 ${result.mode_livraison === 'retrait_gratuit' ? 'Retrait gratuit' : 'Adresse de livraison'}</h3>
+            ${result.mode_livraison === 'retrait_gratuit'
+              ? '<p>Vous serez contacté(e) pour convenir d\'un rendez-vous de retrait.</p>'
+              : `<p>${[result.rue, result.adresse, result.code_postal, result.ville, result.pays].filter(Boolean).join('<br>')}</p>`
+            }
 
             ${result.notes ? `
               <h3>📝 Notes</h3>
@@ -163,10 +166,12 @@ export default {
       if (error) {
         console.error('❌ Erreur Resend:', error);
       } else {
-        await (strapi as any).entityService.update('api::commande.commande', result.id, {
-          data: { email_sent: true },
+        // Use Document API (Strapi 5) — entityService is deprecated
+        await (strapi as any).documents('api::commande.commande').update({
+          documentId: result.documentId,
+          data: { email_sent: true } as any,
         });
-        console.log(`✅ Email envoyé à ${result.Email} pour la commande #${result.id}`);
+        console.log(`✅ Email envoyé à ${result.Email} pour la commande #${result.id} (${result.documentId})`);
       }
 
     } catch (error) {
