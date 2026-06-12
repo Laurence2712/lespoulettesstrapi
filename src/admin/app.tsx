@@ -9,16 +9,30 @@ export default {
     app.customFields.register({
       name: 'articles',
       type: 'json',
-      intlLabel: {
-        id: 'custom-fields.articles.label',
-        defaultMessage: 'Articles',
-      },
-      intlDescription: {
-        id: 'custom-fields.articles.description',
-        defaultMessage: 'Articles de la commande',
-      },
+      intlLabel: { id: 'cf.articles.label', defaultMessage: 'Articles' },
+      intlDescription: { id: 'cf.articles.desc', defaultMessage: 'Articles de la commande' },
       components: {
         Input: async () => import('./extensions/ArticlesField'),
+      },
+    });
+
+    app.customFields.register({
+      name: 'statut',
+      type: 'string',
+      intlLabel: { id: 'cf.statut.label', defaultMessage: 'Statut' },
+      intlDescription: { id: 'cf.statut.desc', defaultMessage: 'Statut de la commande' },
+      components: {
+        Input: async () => import('./extensions/StatutField'),
+      },
+    });
+
+    app.customFields.register({
+      name: 'email-sent',
+      type: 'boolean',
+      intlLabel: { id: 'cf.email-sent.label', defaultMessage: 'Email envoyé' },
+      intlDescription: { id: 'cf.email-sent.desc', defaultMessage: 'Email de confirmation envoyé' },
+      components: {
+        Input: async () => import('./extensions/EmailSentField'),
       },
     });
   },

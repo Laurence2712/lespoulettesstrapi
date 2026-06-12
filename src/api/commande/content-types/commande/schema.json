@@ -55,21 +55,15 @@
       "type": "decimal"
     },
     "statut": {
-      "type": "enumeration",
-      "enum": [
-        "en_attente",
-        "payé",
-        "confirmee",
-        "expediee",
-        "annulee"
-      ]
+      "type": "customField",
+      "customField": "global::statut"
     },
     "notes": {
       "type": "text"
     },
     "email_sent": {
-      "type": "boolean",
-      "default": false
+      "type": "customField",
+      "customField": "global::email-sent"
     },
     "methode_paiement": {
       "type": "enumeration",
