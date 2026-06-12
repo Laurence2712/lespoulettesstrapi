@@ -1,5 +1,45 @@
 import { Resend } from 'resend';
 
+function sendTelegramNotification(result: any, items: any[]) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+
+  const ref = `LP-${String(result.id).padStart(4, '0')}`;
+  const livraison = result.mode_livraison === 'retrait_gratuit' ? 'Retrait gratuit' : 'Livraison à domicile';
+  const adresse = result.mode_livraison === 'retrait_gratuit'
+    ? 'Retrait gratuit'
+    : [result.rue, result.code_postal, result.ville, result.pays].filter(Boolean).join(', ');
+  const articlesList = items
+    .map((a: any) => `• ${a.title} ×${a.quantity} — ${(a.prix * a.quantity).toFixed(2)} €`)
+    .join('\n');
+
+  const text = [
+    `🛍️ *NOUVELLE COMMANDE — Les Poulettes*`,
+    ``,
+    `👤 *Client :* ${result.Nom}`,
+    `📞 *Tél :* ${result.Telephone}`,
+    `📧 *Email :* ${result.Email}`,
+    ``,
+    `📦 *Articles :*`,
+    articlesList,
+    ``,
+    `💰 *Total TTC :* ${result.total ?? '?'} €`,
+    `🚚 *Livraison :* ${livraison}`,
+    `📍 *Adresse :* ${adresse}`,
+    ``,
+    `🔖 *Réf :* ${ref}`,
+  ].join('\n');
+
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'Markdown' }),
+  }).catch((err: any) =>
+    console.error('❌ Telegram notification error:', err?.message)
+  );
+}
+
 function sendAdminNotification(result: any, items: any[]) {
   const apiKey = process.env.EMAIL_API_KEY || process.env.RESEND_API_KEY;
   const adminEmail = process.env.ADMIN_EMAIL || 'laurencepirard27@gmail.com';
@@ -118,8 +158,9 @@ export default {
         }
       }
 
-      // Notification admin par email (fire & forget)
+      // Notifications admin (fire & forget)
       sendAdminNotification(result, items);
+      sendTelegramNotification(result, items);
 
     } catch (error) {
       console.error('❌ Erreur lors du traitement de la commande :', error);
