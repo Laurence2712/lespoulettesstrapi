@@ -2,36 +2,27 @@ import type { StrapiApp } from '@strapi/strapi/admin';
 
 export default {
   config: {
-    locales: [
-      // 'ar',
-       'fr',
-      // 'cs',
-      // 'de',
-      // 'dk',
-      // 'es',
-      // 'he',
-      // 'id',
-      // 'it',
-      // 'ja',
-      // 'ko',
-      // 'ms',
-      // 'nl',
-      // 'no',
-      // 'pl',
-      // 'pt-BR',
-      // 'pt',
-      // 'ru',
-      // 'sk',
-      // 'sv',
-      // 'th',
-      // 'tr',
-      // 'uk',
-      // 'vi',
-      // 'zh-Hans',
-      // 'zh',
-    ],
+    locales: ['fr'],
   },
-  bootstrap(app: StrapiApp) {
-    console.log(app);
+
+  register(app: StrapiApp) {
+    app.customFields.register({
+      name: 'articles',
+      pluginId: 'global',
+      type: 'json',
+      intlLabel: {
+        id: 'custom-fields.articles.label',
+        defaultMessage: 'Articles',
+      },
+      intlDescription: {
+        id: 'custom-fields.articles.description',
+        defaultMessage: 'Articles de la commande',
+      },
+      components: {
+        Input: async () => import('./extensions/ArticlesField'),
+      },
+    });
   },
+
+  bootstrap(_app: StrapiApp) {},
 };

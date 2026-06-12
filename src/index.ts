@@ -172,7 +172,14 @@ async function setCommandeListViewConfig(strapi: Core.Strapi) {
 }
 
 export default {
-  register(/* { strapi }: { strapi: Core.Strapi } */) {},
+  register({ strapi }: { strapi: Core.Strapi }) {
+    // Register articles as a custom field so the admin can use a custom React component
+    strapi.customFields.register({
+      name: 'articles',
+      plugin: 'global',
+      type: 'json',
+    });
+  },
 
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
     await setPublicPermissions(strapi);

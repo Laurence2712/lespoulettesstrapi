@@ -47,7 +47,8 @@
       "type": "text"
     },
     "articles": {
-      "type": "json",
+      "type": "customField",
+      "customField": "global::articles",
       "required": true
     },
     "total": {
