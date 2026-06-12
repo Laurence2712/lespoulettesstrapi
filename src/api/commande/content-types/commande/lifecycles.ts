@@ -6,16 +6,29 @@ function sendWhatsAppNotification(result: any, items: any[]) {
   if (!phone || !apikey) return;
 
   const ref = `LP-${String(result.id).padStart(4, '0')}`;
-  const livraison = result.mode_livraison === 'retrait_gratuit' ? 'Retrait gratuit' : 'Livraison domicile';
-  const articlesList = items.map((i: any) => `- ${i.title} x${i.quantity}`).join('\n');
+  const livraison = result.mode_livraison === 'retrait_gratuit' ? 'Retrait gratuit' : 'Livraison à domicile';
+  const adresse = result.mode_livraison === 'retrait_gratuit'
+    ? 'Retrait gratuit'
+    : [result.rue, result.code_postal, result.ville, result.pays].filter(Boolean).join(', ');
+  const articlesList = items
+    .map((a: any) => `• ${a.title} x${a.quantity} — ${(a.prix * a.quantity).toFixed(2)} €`)
+    .join('\n');
+
   const text = [
-    `🐣 Nouvelle commande ${ref}`,
-    `👤 ${result.Nom}`,
-    `📞 ${result.Telephone}`,
-    `💰 Total : ${result.total ?? '?'} €`,
-    `📦 ${livraison}`,
-    `🛍 Articles :`,
+    `🛍️ NOUVELLE COMMANDE — Les Poulettes`,
+    ``,
+    `👤 Client : ${result.Nom}`,
+    `📞 Tél : ${result.Telephone}`,
+    `📧 Email : ${result.Email}`,
+    ``,
+    `📦 Articles :`,
     articlesList,
+    ``,
+    `💰 Total TTC : ${result.total ?? '?'} €`,
+    `🚚 Livraison : ${livraison}`,
+    `📍 Adresse : ${adresse}`,
+    ``,
+    `🔖 Réf : ${ref}`,
   ].join('\n');
 
   const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}&text=${encodeURIComponent(text)}&apikey=${encodeURIComponent(apikey)}`;
