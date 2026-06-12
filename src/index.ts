@@ -91,7 +91,7 @@ const COMMANDE_CONTENT_MANAGER_CONFIG = {
     },
   },
   layouts: {
-    list: ['createdAt', 'Nom', 'statut', 'total', 'methode_paiement', 'email_sent'],
+    list: ['createdAt', 'Nom', 'Email', 'statut', 'total', 'methode_paiement', 'mode_livraison'],
     editRelations: [],
     edit: [
       [{ name: 'Nom', size: 6 }, { name: 'Email', size: 6 }],
@@ -172,7 +172,12 @@ async function setCommandeListViewConfig(strapi: Core.Strapi) {
 }
 
 export default {
-  register(/* { strapi }: { strapi: Core.Strapi } */) {},
+  register({ strapi }: { strapi: Core.Strapi }) {
+    // Register articles as a custom field so the admin can use a custom React component
+    strapi.customFields.register({ name: 'articles',    type: 'json'    });
+    strapi.customFields.register({ name: 'statut',      type: 'string'  });
+    strapi.customFields.register({ name: 'email-sent',  type: 'boolean' });
+  },
 
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
     await setPublicPermissions(strapi);

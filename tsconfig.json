@@ -41,7 +41,7 @@
     "**/*.test.*",
     "**/*.spec.*",
     "tests/**/*",
-    "playwright.config.ts"
+    "playwright.config.ts",
     // Do not include plugins in the server compilation
     "src/plugins/**"
   ]

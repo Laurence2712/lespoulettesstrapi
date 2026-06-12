@@ -54,6 +54,15 @@
       ],
       "type": "media",
       "multiple": false
+    },
+    "categorie": {
+      "type": "enumeration",
+      "enum": [
+        "trousses",
+        "sacs",
+        "accessoires",
+        "autres"
+      ]
     }
   }
 }
