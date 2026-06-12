@@ -8,7 +8,6 @@ export default {
   register(app: StrapiApp) {
     app.customFields.register({
       name: 'articles',
-      pluginId: 'global',
       type: 'json',
       intlLabel: {
         id: 'custom-fields.articles.label',

@@ -176,7 +176,6 @@ export default {
     // Register articles as a custom field so the admin can use a custom React component
     strapi.customFields.register({
       name: 'articles',
-      plugin: 'global',
       type: 'json',
     });
   },
