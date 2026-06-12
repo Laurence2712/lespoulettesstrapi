@@ -15,6 +15,7 @@ export default factories.createCoreController('api::commande.commande', ({ strap
 
     try {
       const total = items.reduce((sum: number, item: any) => sum + Number(item.prix) * item.quantity, 0);
+      const nb_articles = items.reduce((sum: number, item: any) => sum + item.quantity, 0);
 
       const commande = await strapi.documents('api::commande.commande').create({
         data: {
@@ -29,6 +30,7 @@ export default factories.createCoreController('api::commande.commande', ({ strap
           adresse: adresse || '',
           articles: JSON.stringify(items),
           total,
+          nb_articles,
           statut: 'en_attente',
           methode_paiement: 'virement',
           notes: notes || '',
@@ -93,6 +95,7 @@ export default factories.createCoreController('api::commande.commande', ({ strap
           adresse: adresse || '',
           articles: JSON.stringify(items),
           total: items.reduce((sum: number, item: any) => sum + Number(item.prix) * item.quantity, 0),
+          nb_articles: items.reduce((sum: number, item: any) => sum + item.quantity, 0),
           statut: 'en_attente',
           methode_paiement: 'carte',
           notes: notes || '',

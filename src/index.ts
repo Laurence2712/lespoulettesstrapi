@@ -81,6 +81,10 @@ const COMMANDE_CONTENT_MANAGER_CONFIG = {
       edit: { label: 'Stripe Payment Intent', description: '', placeholder: '', visible: true, editable: true },
       list: { label: 'Stripe Intent', searchable: false, sortable: false },
     },
+    nb_articles: {
+      edit: { label: 'Nb articles', description: '', placeholder: '', visible: true, editable: false },
+      list: { label: 'Qté', searchable: false, sortable: true },
+    },
     createdAt: {
       edit: { label: 'Date de commande', description: '', placeholder: '', visible: false, editable: false },
       list: { label: 'Date', searchable: false, sortable: true },
@@ -101,7 +105,7 @@ const COMMANDE_CONTENT_MANAGER_CONFIG = {
       [{ name: 'ville', size: 4 }, { name: 'code_postal', size: 4 }, { name: 'pays', size: 4 }],
       [{ name: 'adresse', size: 12 }],
       [{ name: 'articles', size: 12 }],
-      [{ name: 'total', size: 4 }, { name: 'statut', size: 4 }, { name: 'email_sent', size: 4 }],
+      [{ name: 'nb_articles', size: 4 }, { name: 'statut', size: 4 }, { name: 'email_sent', size: 4 }],
       [{ name: 'notes', size: 12 }],
       [{ name: 'stripe_session_id', size: 6 }, { name: 'stripe_payment_intent', size: 6 }],
     ],
