@@ -1,5 +1,30 @@
 import { Resend } from 'resend';
 
+function sendWhatsAppNotification(result: any, items: any[]) {
+  const phone = process.env.CALLMEBOT_PHONE;
+  const apikey = process.env.CALLMEBOT_APIKEY;
+  if (!phone || !apikey) return;
+
+  const ref = `LP-${String(result.id).padStart(4, '0')}`;
+  const livraison = result.mode_livraison === 'retrait_gratuit' ? 'Retrait gratuit' : 'Livraison domicile';
+  const articlesList = items.map((i: any) => `- ${i.title} x${i.quantity}`).join('\n');
+  const text = [
+    `🐣 Nouvelle commande ${ref}`,
+    `👤 ${result.Nom}`,
+    `📞 ${result.Telephone}`,
+    `💰 Total : ${result.total ?? '?'} €`,
+    `📦 ${livraison}`,
+    `🛍 Articles :`,
+    articlesList,
+  ].join('\n');
+
+  const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}&text=${encodeURIComponent(text)}&apikey=${encodeURIComponent(apikey)}`;
+
+  fetch(url).catch((err: any) =>
+    console.error('❌ WhatsApp notification error:', err?.message)
+  );
+}
+
 export default {
   async afterCreate(event: any) {
     const { result } = event;
@@ -47,6 +72,9 @@ export default {
           }
         }
       }
+
+      // Notification WhatsApp (fire & forget)
+      sendWhatsAppNotification(result, items);
 
     } catch (error) {
       console.error('❌ Erreur lors du traitement de la commande :', error);
