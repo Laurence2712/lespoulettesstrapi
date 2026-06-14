@@ -1,10 +1,4 @@
-import React from 'react';
-
-interface Props {
-  value?: boolean | null;
-}
-
-const EmailSentField: React.FC<Props> = ({ value }) => {
+const EmailSentField = ({ value }: { value?: boolean | null }) => {
   if (value === true) {
     return (
       <span style={{

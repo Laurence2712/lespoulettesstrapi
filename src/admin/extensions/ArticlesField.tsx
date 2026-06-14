@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface Article {
   title: string;
   quantity: number;
@@ -7,11 +5,7 @@ interface Article {
   image_url?: string;
 }
 
-interface Props {
-  value?: string | Article[] | null;
-}
-
-const ArticlesField: React.FC<Props> = ({ value }) => {
+const ArticlesField = ({ value }: { value?: string | Article[] | null }) => {
   let items: Article[] = [];
   try {
     items = typeof value === 'string'
@@ -54,7 +48,6 @@ const ArticlesField: React.FC<Props> = ({ value }) => {
             background: i % 2 === 0 ? '#fff' : '#fafafa',
           }}
         >
-          {/* Thumbnail */}
           {item.image_url ? (
             <img
               src={item.image_url}
@@ -84,12 +77,10 @@ const ArticlesField: React.FC<Props> = ({ value }) => {
             </div>
           )}
 
-          {/* Title */}
           <span style={{ flex: 1, fontWeight: 500, color: '#32324d' }}>
             {item.title}
           </span>
 
-          {/* Quantity badge */}
           <span style={{
             background: '#FACC15',
             color: '#1c1c38',
@@ -102,7 +93,6 @@ const ArticlesField: React.FC<Props> = ({ value }) => {
             ×{item.quantity}
           </span>
 
-          {/* Line total */}
           <span style={{
             fontWeight: 600,
             minWidth: '72px',
@@ -115,7 +105,6 @@ const ArticlesField: React.FC<Props> = ({ value }) => {
         </div>
       ))}
 
-      {/* Grand total */}
       <div style={{
         display: 'flex',
         justifyContent: 'flex-end',
@@ -128,7 +117,7 @@ const ArticlesField: React.FC<Props> = ({ value }) => {
         fontSize: '15px',
         color: '#32324d',
       }}>
-        <span style={{ color: '#666' }}>Total</span>
+        <span style={{ color: '#666', fontWeight: 400 }}>Total</span>
         {total.toFixed(2)} €
       </div>
     </div>

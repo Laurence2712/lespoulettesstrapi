@@ -1,5 +1,3 @@
-import React from 'react';
-
 const CONFIG = {
   en_attente: { label: '⏳ En attente', color: '#92400e', bg: '#fef3c7', border: '#f59e0b' },
   payé:       { label: '✅ Payé',        color: '#065f46', bg: '#d1fae5', border: '#10b981' },
@@ -18,11 +16,11 @@ interface Props {
   required?: boolean;
 }
 
-const StatutField: React.FC<Props> = ({ value, onChange, name = 'statut', disabled }) => {
+const StatutField = ({ value, onChange, name = 'statut', disabled }: Props) => {
   const cfg = CONFIG[value as StatutKey] ?? { label: value || '—', color: '#666', bg: '#f5f5f5', border: '#ccc' };
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+  if (disabled) {
+    return (
       <span style={{
         display: 'inline-flex',
         alignItems: 'center',
@@ -34,36 +32,34 @@ const StatutField: React.FC<Props> = ({ value, onChange, name = 'statut', disabl
         background: cfg.bg,
         border: `1px solid ${cfg.border}`,
         width: 'fit-content',
-        letterSpacing: '0.01em',
       }}>
         {cfg.label}
       </span>
+    );
+  }
 
-      {!disabled && (
-        <select
-          name={name}
-          value={value ?? ''}
-          onChange={(e) =>
-            onChange?.({ target: { name, value: e.target.value, type: 'select' } })
-          }
-          style={{
-            border: '1px solid #dcdce4',
-            borderRadius: '4px',
-            padding: '8px 12px',
-            fontSize: '14px',
-            background: '#fff',
-            cursor: 'pointer',
-            maxWidth: '260px',
-            color: '#32324d',
-          }}
-        >
-          <option value="">— Choisir un statut —</option>
-          {(Object.keys(CONFIG) as StatutKey[]).map((key) => (
-            <option key={key} value={key}>{CONFIG[key].label}</option>
-          ))}
-        </select>
-      )}
-    </div>
+  return (
+    <select
+      name={name}
+      value={value ?? ''}
+      onChange={(e) => onChange?.({ target: { name, value: e.target.value, type: 'select' } })}
+      style={{
+        border: `2px solid ${cfg.border}`,
+        borderRadius: '8px',
+        padding: '8px 12px',
+        fontSize: '14px',
+        fontWeight: 600,
+        background: cfg.bg,
+        color: cfg.color,
+        cursor: 'pointer',
+        maxWidth: '260px',
+      }}
+    >
+      <option value="">— Choisir un statut —</option>
+      {(Object.keys(CONFIG) as StatutKey[]).map((key) => (
+        <option key={key} value={key}>{CONFIG[key].label}</option>
+      ))}
+    </select>
   );
 };
 

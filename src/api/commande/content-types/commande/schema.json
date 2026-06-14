@@ -78,6 +78,9 @@
     },
     "stripe_payment_intent": {
       "type": "string"
+    },
+    "nb_articles": {
+      "type": "integer"
     }
   }
 }
